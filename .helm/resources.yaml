@@ -1,0 +1,16 @@
+global:
+  resources:
+    _default:
+      limits:
+        cpu: 2000m
+        memory: 2Gi
+      requests:
+        cpu: 50m
+        memory: 100Mi
+    php:
+      limits:
+        cpu: 2000m
+        memory: 4000Mi
+      requests:
+        cpu: 320m
+        memory: 18Mi

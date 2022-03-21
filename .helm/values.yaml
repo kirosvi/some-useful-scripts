@@ -1,0 +1,45 @@
+app_name: sync-dns
+
+global:
+  resources:
+    _default:
+      limits:
+        cpu: 2000m
+        memory: 2Gi
+      requests:
+        cpu: 5m
+        memory: 10Mi
+
+helm-common:
+  nameOverride: sync-dns
+  global:
+    imagePullSecrets:
+      - name: regcred
+
+  cronjobs:
+    sync-dns:
+      suspend:
+        _default: true
+        prod: false
+      schedule: '0 */1 * * *'
+      image: "{{ .Values.werf.image.syncdns }}"
+      imagePullSecrets:
+        - name: regcred
+      env:
+        - name: YC_CLOUD_ID
+          value: b1gfosjlh25hio8vgcui
+        - name: YC_FODER_ID
+          value: b1gbeon9rsrqmg64nkei
+      volumes:
+        - name: sa-key
+          secret:
+            secretName: sa-key
+      volumeMounts:
+        - name: sa-key
+          mountPath: /app/config/
+          readOnly: true
+      failedJobsHistoryLimit: 1
+      successfulJobsHistoryLimit: 3
+      startingDeadlineSeconds: 120
+      concurrencyPolicy: Forbid
+      restartPolicy: Never

@@ -1,0 +1,15 @@
+{% for class,class_array in data.items() %}
+{{ class }}:
+  actions:
+  {%- for method,method_array in class_array.items() %}
+    {{ method }}:
+      resources:
+        requests:
+        {%- for key, value in method_array.items() %}
+          {{ key }} : {{ value }}
+        {%- endfor %}
+        limits:
+          cpu: 2
+          memory: 4Gi
+  {%- endfor %}
+{% endfor %}

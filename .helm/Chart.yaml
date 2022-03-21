@@ -1,0 +1,11 @@
+apiVersion: v1
+name: scripts
+version: 0.1.0
+appVersion: "0.1.0"
+dependencies:
+  - name: helm-common
+    version: 0.2.7
+    repository: https://kirosvi.github.io/helm-common
+    export-values:
+    - parent: werf
+      child: werf

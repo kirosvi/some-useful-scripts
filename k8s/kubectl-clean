@@ -1,0 +1,12 @@
+#!/bin/bash
+
+NS=$1
+
+if [ -z "$NS" ]; then
+    echo "Usage: $0 NAMESPACE"
+    exit 1
+fi
+
+kubectl -n $NS get po | grep -E 'Completed|Error|Evicted' | awk '{print $1}' | xargs kubectl -n $NS delete po
+
+

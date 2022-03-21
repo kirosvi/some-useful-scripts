@@ -1,0 +1,22 @@
+project: scipts-execute
+configVersion: 1
+
+---
+image: syncdns
+from: google/cloud-sdk:slim
+fromLatest: true
+fromCacheVersion: 1
+docker:
+  ENTRYPOINT: /run.sh
+  WORKDIR: /app
+  ENV:
+    PATH: /root/yandex-cloud/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/google-cloud-sdk/bin/
+shell:
+  install:
+    - ln -s /usr/bin/python3 /usr/bin/python
+    - curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+git:
+  - add: /dns/sync_dns/app
+    to: /app
+  - add: /dns/sync_dns/etc/run.sh
+    to: /run.sh
